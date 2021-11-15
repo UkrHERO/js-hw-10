@@ -1,8 +1,8 @@
-import './css/styles.css';
+import '/css/styles.css';
 import Notiflix from 'notiflix';
 import debounce from 'lodash.debounce';
 
-import API from './js/fetchCountries';
+import API from '/js/fetchCountries';
 
 const DEBOUNCE_DELAY = 300;
 

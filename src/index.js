@@ -69,25 +69,23 @@ function onSearch(e) {
   API.fetchCountries(search).then(renderCountry).catch(onFetchError);
 }
 
-function renderCountry(countries) {
-  if (countries.length > 10) {
-    Notiflix.Notify.info(`Too many matches found. Please enter a more specific name.`);
-    refs.countryList.innerHTML = '';
-  } else if (countries.length < 10 && countries.length >= 2) {
-    const markup = countries
-      .map(country => {
-        return `<li class="item">
+function renderMarkupList(countries) {
+  const markup = countries
+    .map(country => {
+      return `<li class="item">
          <img class="flag" src="${country.flags.svg}" width="35" height="20" alt="Flag">
           <p class="name">${country.name}</p>
         </li>`;
-      })
-      .join('');
-    refs.countryList.innerHTML = markup;
-    refs.oneCountry.innerHTML = '';
-  } else if (countries.length === 1) {
-    const markup = countries
-      .map(country => {
-        return `<div class="country">
+    })
+    .join('');
+  refs.countryList.innerHTML = markup;
+  refs.oneCountry.innerHTML = '';
+}
+
+function renderMarkupOneCountry(countries) {
+  const markup = countries
+    .map(country => {
+      return `<div class="country">
           <img class="flag" style="margin-right:15px;" src="${
             country.flags.svg
           }" width="35" height="20" alt="Flag">
@@ -103,10 +101,20 @@ function renderCountry(countries) {
             .map(item => item.name)
             .join(', ')}</span></p>
         `;
-      })
-      .join('');
-    refs.oneCountry.innerHTML = markup;
+    })
+    .join('');
+  refs.oneCountry.innerHTML = markup;
+  refs.countryList.innerHTML = '';
+}
+
+function renderCountry(countries) {
+  if (countries.length > 10) {
+    Notiflix.Notify.info(`Too many matches found. Please enter a more specific name.`);
     refs.countryList.innerHTML = '';
+  } else if (countries.length < 10 && countries.length >= 2) {
+    renderMarkupList(countries);
+  } else if (countries.length === 1) {
+    renderMarkupOneCountry(countries);
   }
 }
 
